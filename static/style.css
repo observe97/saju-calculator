@@ -130,6 +130,20 @@ strong {
     display: inline-block;
 }
 
+/* 성별 선택을 가로로 정렬하는 스타일 */
+.gender-group {
+    display: flex;
+    align-items: center;
+}
+
+.gender-group input[type="radio"] {
+    margin-right: 5px; /* 각 라디오 버튼과 텍스트 사이에 간격 추가 */
+}
+
+.gender-group label {
+    margin-right: 20px; /* 각 성별 선택 항목 사이의 간격 조정 */
+}
+
 @keyframes spin {
     to {
         transform: rotate(360deg);
