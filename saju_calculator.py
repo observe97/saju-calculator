@@ -161,18 +161,18 @@ def generate_report(saju: Dict[str, Tuple[str, str]], analysis: str, birth_year:
     """사주 팔자 상세 보고서"""
     report = "사주 팔자 종합 보고서\n\n"
 
-    # 한글로 수정된 사주 구성
+    # 사주 구성 요소를 한글로 변환하여 출력
     report += "1. 사주 구성:\n"
+    saju_labels = {
+        'year': '연주',
+        'month': '월주',
+        'day': '일주',
+        'hour': '시주'
+    }
+
     for key, value in saju.items():
-        # year -> 연주, month -> 월주, day -> 일주, hour -> 시주로 변경
-        if key == 'year':
-            report += f"   연주: {value[0]}{value[1]}\n"
-        elif key == 'month':
-            report += f"   월주: {value[0]}{value[1]}\n"
-        elif key == 'day':
-            report += f"   일주: {value[0]}{value[1]}\n"
-        elif key == 'hour':
-            report += f"   시주: {value[0]}{value[1]}\n"
+        label = saju_labels.get(key, key)  # 영어 키를 한글로 변환
+        report += f"   {label}: {value[0]}{value[1]}\n"
 
     report += "\n2. 사주 분석 요약:\n"
     report += analysis  # 요약된 핵심 분석 결과를 그대로 포함
