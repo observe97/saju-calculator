@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사주 결과</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>사주 결과</h1>
+            <div class="result">
+                <h2>사주:</h2>
+                <ul>
+                    {% for key, value in saju.items() %}
+                    <li><strong>{{ key }}:</strong> {{ value[0] }}{{ value[1] }}</li>
+                    {% endfor %}
+                </ul>
+                
+                <h2>분석:</h2>
+                <p>{{ analysis }}</p>
+            </div>
+            <a href="/" class="button">다시 계산하기</a>
+        </div>
+    </div>
+</body>
+</html>
