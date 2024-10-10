@@ -1,5 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from saju_calculator import calculate_saju, analyze_saju, generate_report
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -8,25 +9,22 @@ app = Flask(__name__)
 def index():
     if request.method == 'POST':
         try:
-            year = request.form.get('year')
-            month = request.form.get('month')
-            day = request.form.get('day')
-            hour = request.form.get('hour')
+            birthdate = request.form.get('birthdate')
+            birthtime = request.form.get('birthtime')
             gender = request.form.get('gender')
 
-            # 데이터가 제대로 받아졌는지 출력 (디버깅용)
-            print(f"Year: {year}, Month: {month}, Day: {day}, Hour: {hour}, Gender: {gender}")
+            # 데이터가 제대로 받아졌는지 확인 (디버깅용)
+            print(f"Birthdate: {birthdate}, Birthtime: {birthtime}, Gender: {gender}")
 
-            # 데이터가 비어있는지 확인
-            if not all([year, month, day, hour, gender]):
+            # 필수 필드 검증
+            if not all([birthdate, birthtime, gender]):
                 raise ValueError("필수 필드가 누락되었습니다.")
 
-            # 사주 계산 및 분석
-            year = int(year)
-            month = int(month)
-            day = int(day)
-            hour = int(hour)
+            # 날짜와 시간을 분리
+            year, month, day = map(int, birthdate.split('-'))
+            hour = int(birthtime.split(':')[0])
 
+            # 사주 계산 및 보고서 생성
             saju = calculate_saju(year, month, day, hour)
             analysis = analyze_saju(saju, year, month, day, gender)
             report = generate_report(saju, analysis, year, month, day, gender)

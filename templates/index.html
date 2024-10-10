@@ -17,6 +17,8 @@
                 <p>사주를 계산 중입니다...</p>
             </div>
 
+
+
             <form id="saju-form" method="POST">
                 <div class="form-group">
                     <label for="birthdate">생년월일:</label>
@@ -28,12 +30,13 @@
                     <input type="time" id="birthtime" name="birthtime" required>
                 </div>
 
-                <div class="form-group">
-                    <label for="gender">성별:</label>
-                    <input type="radio" id="male" name="gender" value="male" required>
-                    <label for="male">남성</label>
-                    <input type="radio" id="female" name="gender" value="female">
-                    <label for="female">여성</label>
+                <div class="form-group gender-group">
+                        <label for="male">
+                            <input type="radio" id="male" name="gender" value="male" required> 남성
+                        </label>
+                        <label for="female">
+                            <input type="radio" id="female" name="gender" value="female"> 여성
+                        </label>
                 </div>
 
                 <button type="submit">계산하기</button>
