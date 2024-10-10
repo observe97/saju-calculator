@@ -203,7 +203,6 @@ def generate_report(saju: Dict[str, Tuple[str, str]], analysis: str, birth_year:
 
     return report
 
-
 # 사용 예시
 def main():
     year, month, day, hour = 1990, 5, 15, 14
