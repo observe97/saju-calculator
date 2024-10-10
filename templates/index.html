@@ -10,33 +10,42 @@
     <div class="container">
         <div class="card">
             <h1>사주 계산기</h1>
-            <form method="POST">
+
+            <!-- 로딩바 추가 -->
+            <div id="loading" style="display:none;">
+                <div class="spinner"></div>
+                <p>사주를 계산 중입니다...</p>
+            </div>
+
+            <form id="saju-form" method="POST">
                 <div class="form-group">
-                    <label for="year">년도:</label>
-                    <input type="number" id="year" name="year" required>
+                    <label for="birthdate">생년월일:</label>
+                    <input type="date" id="birthdate" name="birthdate" required>
                 </div>
+
                 <div class="form-group">
-                    <label for="month">월:</label>
-                    <input type="number" id="month" name="month" min="1" max="12" required>
+                    <label for="birthtime">출생 시간 (24시간제):</label>
+                    <input type="time" id="birthtime" name="birthtime" required>
                 </div>
-                <div class="form-group">
-                    <label for="day">일:</label>
-                    <input type="number" id="day" name="day" min="1" max="31" required>
-                </div>
-                <div class="form-group">
-                    <label for="hour">시간 (24시간제):</label>
-                    <input type="number" id="hour" name="hour" min="0" max="23" required>
-                </div>
+
                 <div class="form-group">
                     <label for="gender">성별:</label>
-                    <select id="gender" name="gender" required>
-                        <option value="male">남성</option>
-                        <option value="female">여성</option>
-                    </select>
+                    <input type="radio" id="male" name="gender" value="male" required>
+                    <label for="male">남성</label>
+                    <input type="radio" id="female" name="gender" value="female" required>
+                    <label for="female">여성</label>
                 </div>
+
                 <button type="submit">계산하기</button>
             </form>
         </div>
     </div>
+
+    <script>
+        // 폼 제출 시 로딩바 표시
+        document.getElementById('saju-form').addEventListener('submit', function() {
+            document.getElementById('loading').style.display = 'block';
+        });
+    </script>
 </body>
 </html>

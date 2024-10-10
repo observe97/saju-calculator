@@ -56,7 +56,7 @@ label {
     color: #666;
 }
 
-input[type="number"] {
+input[type="date"], input[type="time"] {
     width: 100%;
     padding: 0.5rem;
     border: 1px solid #ddd;
@@ -87,6 +87,8 @@ button:hover, .button:hover {
     border-radius: 4px;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 
 ul {
@@ -101,4 +103,35 @@ li {
 strong {
     font-weight: bold;
     color: #444;
+}
+
+/* 오행 차트를 위한 스타일 */
+.chart-container {
+    margin: 2rem 0;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 로딩바 스타일 */
+#loading {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: #09f;
+    animation: spin 1s ease infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }

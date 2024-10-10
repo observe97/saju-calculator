@@ -24,8 +24,56 @@
                 <h2>상세 보고서:</h2>
                 <pre>{{ report }}</pre>
             </div>
+
+            <!-- 오행 강약 차트 추가 -->
+            <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+                <canvas id="wuxingChart"></canvas>
+            </div>
+
             <a href="/" class="button">다시 계산하기</a>
         </div>
     </div>
+
+    <!-- Chart.js 라이브러리 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // 예시 오행 강약 데이터 (서버에서 계산된 값을 이 변수로 전달)
+        const wuxingStrength = {
+            '목': 3,  // 예: 목의 강도
+            '화': 4,
+            '토': 2,
+            '금': 5,
+            '수': 1
+        };
+
+        // 차트를 그릴 캔버스 컨텍스트 가져오기
+        const ctx = document.getElementById('wuxingChart').getContext('2d');
+        const data = {
+            labels: ['목', '화', '토', '금', '수'],  // 오행 항목
+            datasets: [{
+                label: '오행의 강약',
+                data: Object.values(wuxingStrength),  // 오행 강약 데이터
+                backgroundColor: ['#4CAF50', '#FF5722', '#FFC107', '#9E9E9E', '#2196F3'],
+                borderColor: '#333',
+                borderWidth: 1
+            }]
+        };
+
+        const config = {
+            type: 'radar',  // 레이다 차트 타입
+            data: data,
+            options: {
+                scales: {
+                    r: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        // 차트 생성
+        const wuxingChart = new Chart(ctx, config);
+    </script>
 </body>
 </html>
