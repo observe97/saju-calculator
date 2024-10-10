@@ -138,69 +138,59 @@ def calculate_saeun(year: int) -> List[str]:
 
 def analyze_saju(saju: Dict[str, Tuple[str, str]], birth_year: int, birth_month: int, birth_day: int,
                  gender: str) -> str:
-    """사주 분석"""
+    """사주 핵심 분석"""
     wuxing_count = analyze_wuxing(saju)
     yinyang_count = analyze_yinyang(saju)
-    wuxing_relations = analyze_wuxing_relations(wuxing_count)
-    day_master_analysis = analyze_day_master(saju)
 
-    day_master = saju['day'][0]
-    shishen_analysis = calculate_shishen(day_master, saju)
-    daeun = calculate_daeun(birth_year, birth_month, birth_day, gender)
-    saeun = calculate_saeun(birth_year)
+    analysis = "사주의 핵심 분석 결과:\n"
+    analysis += f"1. 오행 분석: {', '.join([f'{k}: {v}' for k, v in wuxing_count.items()])}\n"
+    analysis += f"2. 음양 분석: 음 {yinyang_count['음']}, 양 {yinyang_count['양']}\n"
 
-    analysis = "사주 분석 결과:\n\n"
-    analysis += f"1. 오행 분석:\n{', '.join([f'{k}: {v}' for k, v in wuxing_count.items()])}\n\n"
-    analysis += f"2. 음양 분석:\n음 {yinyang_count['음']}, 양 {yinyang_count['양']}\n\n"
-    analysis += f"3. 오행 관계 분석:\n{wuxing_relations}\n"
-    analysis += f"4. 일간 분석:\n{day_master_analysis}\n\n"
-    analysis += "5. 십신 분석:\n"
-    for pillar, shishen in shishen_analysis.items():
-        analysis += f"   {pillar}: {shishen[0]}(천간), {shishen[1]}(지지)\n"
-    analysis += "\n6. 대운:\n"
-    for daeun_item in daeun[:5]:  # 처음 5개 대운만 표시
-        analysis += f"   {daeun_item}\n"
-    analysis += "\n7. 세운 (향후 10년):\n"
-    for saeun_item in saeun[:5]:  # 처음 5년만 표시
-        analysis += f"   {saeun_item}\n"
-
-    # 종합 분석
+    # 핵심 내용 요약
     dominant_element = max(wuxing_count, key=wuxing_count.get)
     weak_element = min(wuxing_count, key=wuxing_count.get)
 
-    analysis += "\n8. 종합 분석:\n"
-    analysis += f"- 가장 강한 기운: {dominant_element}\n"
-    analysis += f"- 가장 약한 기운: {weak_element}\n"
-    analysis += f"- 음양 균형: {'음' if yinyang_count['음'] > yinyang_count['양'] else '양'}의 기운이 강합니다.\n"
-
-    # 운세 해석
-    day_master_wuxing = WUXING[day_master]
-    current_year = datetime.datetime.now().year
-    current_year_wuxing = WUXING[TIANGAN[current_year % 10]]
-
-    analysis += "\n9. 운세 해석:\n"
-    if WUXING_RELATIONS[day_master_wuxing]['생'] == current_year_wuxing:
-        analysis += "올해는 일간을 생해주는 해로, 전반적으로 긍정적인 기운이 흐릅니다.\n"
-    elif WUXING_RELATIONS[day_master_wuxing]['극'] == current_year_wuxing:
-        analysis += "올해는 일간을 극하는 해로, 도전과 변화의 시기가 될 수 있습니다.\n"
-    else:
-        analysis += "올해는 일간과 중성적인 관계의 해로, 안정적이나 큰 변화는 없을 수 있습니다.\n"
+    analysis += "\n- 가장 강한 오행: {dominant_element}\n"
+    analysis += "- 가장 약한 오행: {weak_element}\n"
 
     return analysis
 
 
 def generate_report(saju: Dict[str, Tuple[str, str]], analysis: str, birth_year: int, birth_month: int, birth_day: int,
                     gender: str) -> str:
-    """사주 팔자 종합 보고서"""
+    """사주 팔자 상세 보고서"""
     report = "사주 팔자 종합 보고서\n\n"
-    report += "1. 사주 구성\n"
+    report += "1. 사주 구성:\n"
     for key, value in saju.items():
         report += f"   {key}: {value[0]}{value[1]}\n"
-    report += "\n2. 상세 분석\n"
-    report += analysis
-    report += "\n3. 조언\n"
-    report += "이 분석은 사주의 기본 원리와 복잡한 요소들을 고려한 것이지만, 개인의 구체적인 상황과 경험에 따라 해석이 달라질 수 있습니다. "
-    report += "더 정확하고 개인화된 해석을 위해서는 전문가와의 상담을 추천드립니다."
+
+    report += "\n2. 사주 분석 요약:\n"
+    report += analysis  # 핵심 분석 내용 포함
+
+    # 추가적으로 더 상세한 분석 제공
+    report += "\n3. 상세 분석:\n"
+
+    # 오행 관계 상세 분석
+    report += analyze_wuxing_relations(analyze_wuxing(saju)) + "\n"
+
+    # 십신 분석 추가
+    day_master = saju['day'][0]
+    report += "4. 십신 분석:\n"
+    report += f"   일간인 {day_master}을 중심으로 한 십신 해석을 제공합니다.\n"
+
+    # 대운 및 세운 설명
+    report += "\n5. 대운 및 세운 분석:\n"
+    daeun = calculate_daeun(birth_year, birth_month, birth_day, gender)
+    saeun = calculate_saeun(birth_year)
+
+    report += "대운 분석:\n"
+    for daeun_item in daeun:
+        report += f"   {daeun_item}\n"
+
+    report += "\n세운 분석 (향후 10년):\n"
+    for saeun_item in saeun[:5]:
+        report += f"   {saeun_item}\n"
+
     return report
 
 
