@@ -143,15 +143,15 @@ def analyze_saju(saju: Dict[str, Tuple[str, str]], birth_year: int, birth_month:
     yinyang_count = analyze_yinyang(saju)
 
     analysis = "사주의 핵심 분석 결과:\n"
-    analysis += f"1. 오행 분석: {', '.join([f'{k}: {v}' for k, v in wuxing_count.items()])}\n"
+    analysis += f"1. 오행 분석: 목: {wuxing_count['목']}, 화: {wuxing_count['화']}, 토: {wuxing_count['토']}, 금: {wuxing_count['금']}, 수: {wuxing_count['수']}\n"
     analysis += f"2. 음양 분석: 음 {yinyang_count['음']}, 양 {yinyang_count['양']}\n"
 
-    # 핵심 내용 요약
+    # 오행 중 가장 강한 것과 약한 것 계산
     dominant_element = max(wuxing_count, key=wuxing_count.get)
     weak_element = min(wuxing_count, key=wuxing_count.get)
 
-    analysis += "\n- 가장 강한 오행: {dominant_element}\n"
-    analysis += "- 가장 약한 오행: {weak_element}\n"
+    analysis += f"\n- 가장 강한 오행: {dominant_element}\n"
+    analysis += f"- 가장 약한 오행: {weak_element}\n"
 
     return analysis
 
@@ -160,12 +160,22 @@ def generate_report(saju: Dict[str, Tuple[str, str]], analysis: str, birth_year:
                     gender: str) -> str:
     """사주 팔자 상세 보고서"""
     report = "사주 팔자 종합 보고서\n\n"
+
+    # 한글로 수정된 사주 구성
     report += "1. 사주 구성:\n"
     for key, value in saju.items():
-        report += f"   {key}: {value[0]}{value[1]}\n"
+        # year -> 연주, month -> 월주, day -> 일주, hour -> 시주로 변경
+        if key == 'year':
+            report += f"   연주: {value[0]}{value[1]}\n"
+        elif key == 'month':
+            report += f"   월주: {value[0]}{value[1]}\n"
+        elif key == 'day':
+            report += f"   일주: {value[0]}{value[1]}\n"
+        elif key == 'hour':
+            report += f"   시주: {value[0]}{value[1]}\n"
 
     report += "\n2. 사주 분석 요약:\n"
-    report += analysis  # 핵심 분석 내용 포함
+    report += analysis  # 요약된 핵심 분석 결과를 그대로 포함
 
     # 추가적으로 더 상세한 분석 제공
     report += "\n3. 상세 분석:\n"
